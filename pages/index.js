@@ -1,4 +1,6 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components'
+import React from 'react';
+import { useRouter } from 'next/router';
 import appConfig from '../config.json'
 
 function GlobalStyle() {
@@ -62,8 +64,10 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-  const username = 'peas'
-
+  // const username = 'rafmass'
+  const [username, setUsername] = React.useState('rafmass');
+  const roteamento = useRouter();
+ //console.log('stateDoReact' stateDoReact);
   return (
     <>
       <GlobalStyle />
@@ -101,6 +105,11 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (infosDoEvento){
+              infosDoEvento.preventDefault();
+              console.log('Alguem submteu o form');
+              roteamento.push('/chat');
+            }}
             styleSheet={{
               display: 'flex',
               flexDirection: 'column',
@@ -122,7 +131,18 @@ export default function PaginaInicial() {
               {appConfig.name}
             </Text>
 
-            <TextField
+            <input 
+              type="text" 
+              value={username}
+              onChange={function (event) {
+                //console.log('O usr digitou', event.target.value);
+                // Onde está o valor
+                const valor = event.target.value;
+                // Trocar o Valor da variável, através do react
+                setUsername(valor);
+              }} 
+            />
+            {/*<TextField
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -132,7 +152,7 @@ export default function PaginaInicial() {
                   backgroundColor: appConfig.theme.colors.neutrals[800]
                 }
               }}
-            />
+            /> */}
             <Button
               type="submit"
               label="Entrar"
